@@ -154,6 +154,20 @@ class NetcomClient extends EventEmitter {
         });
     }
 
+    implWrite(device, parameters, successCallback, failureCallback) {
+        this.once("response", (response) => {
+            successCallback(response["result"]);
+        });
+
+        this.sendRequest({ r: "write", device, "p": parameters });
+    }
+
+    write(device, parameters) {
+        return new Promise((resolve, reject) => {
+            this.implWrite(device, parameters, resolve, reject);
+        })
+    }
+
     onDisconnect() {
         console.log("onDisconnect NOT IMPLEMENTED");
     }
