@@ -1,7 +1,7 @@
 
 const assert = require("assert");
 
-const { parseNetstring, NetcomClient2 } = require("../index.js");
+const { parseNetstring, Client } = require("../index.js");
 
 describe("parseNetstring", () => {
     const parse = parseNetstring;
@@ -38,29 +38,28 @@ describe("parseNetstring", () => {
     });
 });
 
-describe("NetcomClient2", () => {
+describe("Client", () => {
     it("should handle netstring received in one complete chunk", () => {
         const responses = [];
-        const nc = new NetcomClient2();
-        nc.on("response", (data) => responses.push(data.toString("utf8")));
-        nc.onData("6:abcdef,");
-        assert.deepEqual(["abcdef"], responses);
+        const nc = new Client();
+        nc.on("response", (data) => responses.push(data));
+        nc.onData('10:{"x": "y"},');
+        assert.deepEqual([{x: "y"}], responses);
     });
 
     it("should handle netstrings received in parts", () => {
         let responses = [];
-        const nc = new NetcomClient2();
-        nc.on("response", (data) => responses.push(data.toString("utf8")));
+        const nc = new Client();
+        nc.on("response", (data) => responses.push(data));
 
-        nc.onData("6:abcd");
+        nc.onData('19:{"a":1');
         assert.equal(0, responses.length);
 
-        nc.onData("ef,")
-        assert.deepEqual(["abcdef"], responses);
+        nc.onData('23,"boo"')
+        assert.equal(0, responses.length);
 
-        responses = [];
-        nc.onData("2:AB,2:CD,4:EF");
-        nc.onData("GH,3:IJK,2:LM");
-        assert.deepEqual(["AB","CD","EFGH","IJK"], responses);
+        nc.onData(':200');
+        nc.onData('},13:{"1":2,"3":4},');
+        assert.deepEqual([ { a: 123, boo: 200 }, {"1": 2, "3": 4}], responses);
     })
 });
