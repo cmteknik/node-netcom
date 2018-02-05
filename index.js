@@ -82,7 +82,7 @@ function parseNetstring(buf) {
 
 
 
-class NetcomClient2 extends EventEmitter {
+class NetcomClient extends EventEmitter {
     constructor() {
         super();
         this.client = null;
@@ -189,30 +189,16 @@ class NetcomClient2 extends EventEmitter {
             this.buffer = this.buffer.slice(consumed);
 
             const response = JSON.parse(payload);
+            console.log("RECEIVED RESPONSE", response);
             this.emit("response", response);
         }
     }
 }
 
-//nc = new NetcomClient2();
-
-//nc.connect()
-//    .then(() => nc.upgradeToProto30())
-//    .then(() => nc.getDeviceList());
-    // .then(() => nc.read("sim1", ["3x0005", "3x0010"]))
-    // .then((result) => console.log("Ok: ", result.toString("utf8")));
-
-
-// class Pool {
-//     acquire(cb) {
-
-//     }
-// }
-
 class Pool extends EventEmitter {
     constructor() {
         super();
-        const nc = new NetcomClient2();
+        const nc = new NetcomClient();
         nc.connect()
             .then(() => nc.upgradeToProto30())
             .then(() => nc.getDeviceList());
@@ -237,8 +223,7 @@ class Pool extends EventEmitter {
     }
 }
 
-const pool = new Pool();
-
+/*
 function createConsumer(name, parameter, interval) {
     let busy = false;
     function consume() {
@@ -265,5 +250,6 @@ createConsumer(" Ringo", "3x1000", 1200);
 createConsumer("  Paul", "3x2000", 1200);
 createConsumer("George", "3x3000", 1200);
 createConsumer("Lennon", "3x4000", 1200);
+*/
 
-module.exports = { NetcomClient2, parseNetstring };
+module.exports = { NetcomClient, Pool, parseNetstring };
