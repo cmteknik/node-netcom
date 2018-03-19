@@ -1,19 +1,18 @@
 {
   "name": "netcom",
   "version": "1.0.0",
-  "description": "",
+  "description": "CM Teknik Netcomd client module",
   "main": "index.js",
   "scripts": {
     "test": "mocha -w"
   },
-  "author": "",
+  "author": "Jonatan Magnusson <jonatan@cmteknik.se>",
   "license": "ISC",
-  "dependencies": {
-    "eslint-plugin-mocha": "^4.11.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-mocha": "^4.11.0",
     "mocha": "^5.0.0"
   }
 }
