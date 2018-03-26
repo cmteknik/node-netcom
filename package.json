@@ -1,6 +1,6 @@
 {
   "name": "netcom-client",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "CM Teknik Netcomd client module",
   "main": "index.js",
   "scripts": {
